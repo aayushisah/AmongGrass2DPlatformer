@@ -6,13 +6,10 @@ public class Damagable : MonoBehaviour
 {
     public UnityEvent deathEvent;
    
-
     public void OnDeath()
     {
         Debug.Log("ded");
         deathEvent.Invoke();
 
-    }
-
-    
+    }    
 }

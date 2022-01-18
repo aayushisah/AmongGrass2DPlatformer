@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
         
         if(gameObject.transform.position.y<-15)
         {
-            //state = State.ded;
             anim.SetTrigger("Death");
             GetComponent <SpriteRenderer>().color = Color.magenta;
             if(gameObject.transform.position.y<-30)
@@ -321,6 +320,11 @@ public class PlayerController : MonoBehaviour
     private void TimeUp()
     {
         FindObjectOfType<AudioManager>().Play("timeup"); 
+    }
+
+    public void ResetGame()
+    {
+          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
 }

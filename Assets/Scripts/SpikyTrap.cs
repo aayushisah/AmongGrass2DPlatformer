@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class frogtrouble : MonoBehaviour
+public class SpikyTrap : MonoBehaviour
 {
     [SerializeField] private float leftcap;
     [SerializeField] private float rightcap;
     [SerializeField] private float jumplength = 2f;
-    [SerializeField] private float jumpheight = 2f;
+    [SerializeField] private float jumpheight = 0f;
     [SerializeField] private LayerMask Ground;
-  
 
     private Collider2D coll;
     private Rigidbody2D rb;
-    
+
     private bool facingleft = true;
-    public bool isBase;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +25,6 @@ public class frogtrouble : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (facingleft)
         {
             if (transform.position.x > leftcap)
@@ -35,12 +33,9 @@ public class frogtrouble : MonoBehaviour
                 {
                     transform.localScale = new Vector3(1,1,1);
                 }
-                if(coll.IsTouchingLayers(Ground) )
+                if(coll.IsTouchingLayers(Ground))
                 {
-                    if (isBase)
                     rb.velocity = new Vector2(-jumplength,jumpheight);
-                    else
-                    transform.localPosition= new Vector2(0,transform.localPosition.y);
                 }
 
             }
@@ -59,11 +54,9 @@ public class frogtrouble : MonoBehaviour
                 }
                 if(coll.IsTouchingLayers(Ground))
                 {
-                    if (isBase)
                     rb.velocity = new Vector2(jumplength,jumpheight);
-                    else
-                    transform.localPosition= new Vector2(0,transform.localPosition.y);
                 }
+
             }
             else
             {
@@ -71,10 +64,5 @@ public class frogtrouble : MonoBehaviour
             }
         }
     }
-   
-    public void Death()
-    {
-        Destroy(gameObject);
-        //Debug.Log("ok death");
-    }
 }
+
