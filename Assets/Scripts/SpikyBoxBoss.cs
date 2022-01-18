@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossV2 : MonoBehaviour
+public class SpikyBoxBoss : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private Vector3[] positions;
