@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - collectible
+  - Enemy
+  - Powerup
+  - end
+  - Trap
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - ground1
+  - Water
+  - UI
+  - 
+  - 
+  - Ground
+  - Enemy
+  - SPLUI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: BG
+    uniqueID: 3357112603
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: SPLUI
+    uniqueID: 3752526723
+    locked: 0
+  - name: New Layer
+    uniqueID: 1158212995
+    locked: 0

@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2039356095276545114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039356095276545092}
+  - component: {fileID: 2039356095276545093}
+  m_Layer: 9
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2039356095276545092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039356095276545114}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 485.53, y: -8.08, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2039356095276545093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039356095276545114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d907886f3e79d834ebf3bdc3601b5601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: sJump
+    loop: 0
+    clip: {fileID: 8300000, guid: ddbd24b12071e0a47ab6637b9d3d0589, type: 3}
+    vol: 0.8
+    pitch: 1
+    spatialize: 1
+    source: {fileID: 0}
+  - name: bgmusic
+    loop: 1
+    clip: {fileID: 8300000, guid: 0f12fa08cf0ae5846a6eceeb481aebe1, type: 3}
+    vol: 0.5
+    pitch: 1
+    spatialize: 0
+    source: {fileID: 0}
+  - name: powerup
+    loop: 0
+    clip: {fileID: 8300000, guid: 752f86dffe0aa52449757a70f868d227, type: 3}
+    vol: 0.5
+    pitch: 1
+    spatialize: 1
+    source: {fileID: 0}
+  - name: timeup
+    loop: 0
+    clip: {fileID: 8300000, guid: 62cb0c68f96bfff4b8c2b12fc18b4b5b, type: 3}
+    vol: 0.5
+    pitch: 1
+    spatialize: 1
+    source: {fileID: 0}
+  - name: yum
+    loop: 0
+    clip: {fileID: 8300000, guid: 22b0c0cde5b6cca4a802df38bdca72c4, type: 3}
+    vol: 0.5
+    pitch: 1
+    spatialize: 1
+    source: {fileID: 0}
+  - name: hit
+    loop: 0
+    clip: {fileID: 8300000, guid: 5224fa3e6830122408ab889c3f58d541, type: 3}
+    vol: 0.8
+    pitch: 1
+    spatialize: 1
+    source: {fileID: 0}
+  - name: enemypop
+    loop: 0
+    clip: {fileID: 8300000, guid: f70050e30fec66f48a98c382f0b0ef80, type: 3}
+    vol: 1
+    pitch: 0.884
+    spatialize: 1
+    source: {fileID: 0}
+  - name: ono
+    loop: 0
+    clip: {fileID: 8300000, guid: 8e1d0ae152e1abf47b8a62edf292df2d, type: 3}
+    vol: 1
+    pitch: 0.884
+    spatialize: 0
+    source: {fileID: 0}
+  - name: yay
+    loop: 0
+    clip: {fileID: 8300000, guid: 5dfe305833f143648b43ae6f3a11db1b, type: 3}
+    vol: 1
+    pitch: 0.884
+    spatialize: 0
+    source: {fileID: 0}
+  - name: mainmenu
+    loop: 0
+    clip: {fileID: 8300000, guid: 74ab9a674ba4e5b449164e29570edbf3, type: 3}
+    vol: 1
+    pitch: 0.884
+    spatialize: 0
+    source: {fileID: 0}
