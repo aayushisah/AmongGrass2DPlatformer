@@ -5,10 +5,22 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-
+    public static AudioManager Instance;
     public Sound[] sounds;
     // Start is called before the first frame update
     void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    void Start()
     {
         foreach ( Sound s in sounds)
         {

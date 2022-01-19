@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private State state = State.idle;
     private float startTime =210;
     private float fallMultiplier = 5f;
- 
+    
     
     [SerializeField] private LayerMask Ground;
     [SerializeField] private float speed = 5f;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("yum");
             pText.text = pineapple.ToString();
         }
-        if (collision.tag == "Powerup")
+        if (collision.CompareTag("Powerup"))
         {
             Destroy(collision.gameObject);
             FindObjectOfType<AudioManager>().Play("powerup");
@@ -95,18 +95,25 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ResetPower());
             
         }
-        if (collision.tag == "end")
+        if (collision.CompareTag("end"))
         {
             state = State.idle;
             FinishedGame();
         }
+        if( collision.CompareTag("end2"))
+        {
+            state = State.idle;
+            LoadL2();
+            Start();
+        }
+        
     }
 
 
     private void OnCollisionEnter2D(Collision2D other)
     {
          
-        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Trap")
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Trap"))
         {
             if(state == State.falling && other.gameObject.CompareTag("Enemy" ))
             {
@@ -165,7 +172,7 @@ public class PlayerController : MonoBehaviour
             healthAmt.color = Color.red;
             healthAmt.text = "0";
             SceneManager.LoadScene(3);
-            FindObjectOfType<AudioManager>().Play("ono");//doesnt play
+            FindObjectOfType<AudioManager>().Play("ono");
         }
     }
 
@@ -185,8 +192,7 @@ public class PlayerController : MonoBehaviour
             
             if(rb.velocity.y<0)
             {
-                rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1)*Time.deltaTime;
-                Debug.Log("ok method working");                               
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1)*Time.deltaTime;                            
             }
             if(coll.IsTouchingLayers(Ground))
             {
@@ -286,13 +292,22 @@ public class PlayerController : MonoBehaviour
         GetComponent <SpriteRenderer>().color = Color.white;
     }
 
+    public void LoadL2()
+    {
+        
+        timerText.color = Color.green;
+        timerText.text = "YAY";
+        SceneManager.LoadScene(5);
+        FindObjectOfType<AudioManager>().Play("yay");
+        Start();
+    }
 
     public void FinishedGame()
-    {
+    {   
         timerText.color = Color.green;
         timerText.text = "YAY";
         SceneManager.LoadScene(4);
-        FindObjectOfType<AudioManager>().Play("Yay");
+        FindObjectOfType<AudioManager>().Play("yay");
     }
 
 
@@ -324,7 +339,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetGame()
     {
-          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
 }
