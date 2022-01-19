@@ -6,11 +6,23 @@ using UnityEngine.UI;
 
 public class MenuControl : MonoBehaviour
 {
+    
+    public Button [] lvlButtons;
 
-
+    void Start()
+    {
+        
+        int levelAt = PlayerPrefs.GetInt("levelAt", 4);
+        for (int i = 0; i < lvlButtons.Length; i++)
+        {
+            if (i + 4 > levelAt)
+            lvlButtons[i].interactable = false;
+        }
+    }
+    
     public void Level1()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(4);
     }
 
     public void Level2()
@@ -19,18 +31,20 @@ public class MenuControl : MonoBehaviour
     }
    
     public void Rules()
-    {
-        SceneManager.LoadScene(2);
+    { 
+        SceneManager.LoadScene(0);
+        FindObjectOfType<AudioManager>().Play("mainmenu");
     }
 
     public void GoBack()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
     }
 
      public void QuitGame()
     {
+        PlayerPrefs.DeleteAll(); 
         Application.Quit();
     }
-
 }
+

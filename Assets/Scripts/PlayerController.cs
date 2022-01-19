@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text timerText;
     [SerializeField] private float rotationSpeed;
 
-
+    
     void Start()
     {
         
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         coll = GetComponent<CircleCollider2D>();
         healthAmt.text = health.ToString();
 
-        FindObjectOfType<AudioManager>().Play("bgmusic");
+        FindObjectOfType<AudioManager>().Play("mainmenu");
         FindObjectOfType<AudioManager>().Play("powerup");           
     }
 
@@ -102,13 +102,21 @@ public class PlayerController : MonoBehaviour
         }
         if( collision.CompareTag("end2"))
         {
+            
+            if (5 > PlayerPrefs.GetInt("levelAt"))
+            {
+                PlayerPrefs.SetInt("levelAt", 5);
+            }
             state = State.idle;
             LoadL2();
             Start();
         }
         
     }
-
+   
+       
+              
+            
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -171,7 +179,7 @@ public class PlayerController : MonoBehaviour
         {
             healthAmt.color = Color.red;
             healthAmt.text = "0";
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
             FindObjectOfType<AudioManager>().Play("ono");
         }
     }
@@ -269,18 +277,16 @@ public class PlayerController : MonoBehaviour
 
     public void PauseGame()
     {
-        AudioSource[] audios = FindObjectsOfType<AudioSource>();   
+        
         if(Time.timeScale==1)
         {
-            FindObjectOfType<AudioManager>().Pause("bgmusic");
             Time.timeScale = 0;
-            
+            FindObjectOfType<AudioManager>().Pause("bgmusic");
         }
         else
         {
-            FindObjectOfType<AudioManager>().Play("bgmusic");   
             Time.timeScale = 1;
-           
+            FindObjectOfType<AudioManager>().Play("bgmusic");   
         }
     }
 
@@ -306,7 +312,7 @@ public class PlayerController : MonoBehaviour
     {   
         timerText.color = Color.green;
         timerText.text = "YAY";
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(1);
         FindObjectOfType<AudioManager>().Play("yay");
     }
 
@@ -314,7 +320,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DelayFn()
     {
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
     }
 
 
@@ -327,8 +333,9 @@ public class PlayerController : MonoBehaviour
 
 
     public void MainMenu()
-    {
-        SceneManager.LoadScene(0);
+    {        
+        SceneManager.LoadScene(3);
+        FindObjectOfType<AudioManager>().Play("mainmenu");
     }
     
 
