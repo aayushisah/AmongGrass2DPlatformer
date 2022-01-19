@@ -8,9 +8,14 @@ public class MenuControl : MonoBehaviour
 {
 
 
-    public void Play()
+    public void Level1()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void Level2()
+    {
+        SceneManager.LoadScene(5);
     }
    
     public void Rules()
@@ -18,7 +23,7 @@ public class MenuControl : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
-    public void Returm()
+    public void GoBack()
     {
         SceneManager.LoadScene(0);
     }
