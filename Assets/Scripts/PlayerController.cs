@@ -334,7 +334,7 @@ public class PlayerController : MonoBehaviour
 
     public void MainMenu()
     {        
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(0);
         FindObjectOfType<AudioManager>().Play("mainmenu");
     }
     

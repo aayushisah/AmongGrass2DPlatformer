@@ -32,18 +32,18 @@ public class MenuControl : MonoBehaviour
    
     public void Rules()
     { 
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
         FindObjectOfType<AudioManager>().Play("mainmenu");
     }
 
     public void GoBack()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(0);
     }
 
      public void QuitGame()
     {
-        PlayerPrefs.DeleteAll(); 
+        //PlayerPrefs.DeleteAll(); 
         Application.Quit();
     }
 }
