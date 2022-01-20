@@ -279,14 +279,14 @@ public class PlayerController : MonoBehaviour
     {
         
         if(Time.timeScale==1)
-        {
-            Time.timeScale = 0;
-            FindObjectOfType<AudioManager>().Pause("bgmusic");
+        {      
+           Time.timeScale = 0;
+           FindObjectOfType<AudioManager>().Pause("mainmenu");
         }
         else
-        {
+        {  
             Time.timeScale = 1;
-            FindObjectOfType<AudioManager>().Play("bgmusic");   
+            FindObjectOfType<AudioManager>().Play("mainmenu");
         }
     }
 
