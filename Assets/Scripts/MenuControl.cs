@@ -10,7 +10,6 @@ public class MenuControl : MonoBehaviour
 
     void Start()
     {
-        FindObjectOfType<AudioManager>().Play("mainmenu");
         int levelAt = PlayerPrefs.GetInt("levelAt", 4);
         for (int i = 0; i < lvlButtons.Length; i++)
         {
@@ -53,7 +52,7 @@ public class MenuControl : MonoBehaviour
 
     public void QuitGame()
     {
-        PlayerPrefs.DeleteAll(); 
+        //PlayerPrefs.DeleteAll(); 
         Application.Quit();
     }
 }

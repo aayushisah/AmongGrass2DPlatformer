@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-
     //physics things 
     private Rigidbody2D rb;
     private Animator anim; 
@@ -46,15 +45,26 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {   
-
-        if(state != State.hurt)//player moves when not hurt
-        {
-            Movement();
-        }
-
-        TimeUI();//time UI 
+        if(state != State.hurt)
+        Movement();
         
-        if(gameObject.transform.position.y<-15)//player dies on falling off the platform 
+        float t = startTime - Time.deltaTime;
+        startTime -= Time.deltaTime;
+        string seconds = t.ToString("f0");
+        timerText.text = seconds;
+
+        if (t<=10)
+        {
+            timerText.color = Color.red;
+            FindObjectOfType<AudioManager>().Play("timeup"); 
+        }
+        if (t<=0)
+        {
+            anim.SetTrigger("Death");
+            GameOver();
+        }
+        
+        if(gameObject.transform.position.y<-15)
         {
             anim.SetTrigger("Death");
             GetComponent <SpriteRenderer>().color = Color.magenta;
@@ -68,7 +78,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)//handle collectibles/end tags
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("collectible"))//faster than collision.tag
         {
@@ -103,7 +113,7 @@ public class PlayerController : MonoBehaviour
         }
     }
    
-    private void OnCollisionEnter2D(Collision2D other)//handle enemy
+    private void OnCollisionEnter2D(Collision2D other)
     {
          
         if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Trap"))
@@ -149,7 +159,7 @@ public class PlayerController : MonoBehaviour
     }
 
    
-    private void HandleHealth()//handle health UI 
+    private void HandleHealth()
     {
         health -= 10;
         healthAmt.text = health.ToString();
@@ -165,7 +175,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void VelocityState()//for the FSM 
+    private void VelocityState()
     {
         if(state == State.jump )
         {
@@ -179,7 +189,6 @@ public class PlayerController : MonoBehaviour
             
             if(rb.velocity.y<0)
             {
-                //for better Mario-like jump 
                 rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1)*Time.deltaTime;                            
             }
             if(coll.IsTouchingLayers(Ground))
@@ -197,9 +206,8 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void Movement()//simulate player mechanics
+    private void Movement()
     {
-        //input 
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
@@ -207,7 +215,6 @@ public class PlayerController : MonoBehaviour
         float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         movementDirection.Normalize();
 
-        //enables player to move on angled floors
         if (coll.IsTouchingLayers(Ground))
         {
             transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
@@ -219,7 +226,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        //enables player to change the direction they are facing
+
         float hDirection = Input.GetAxis("Horizontal");
         if ( hDirection > 0 )
         {
@@ -232,7 +239,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(-1,1);
         }
 
-        //jump mechanics
+        
         if (Input.GetButtonDown("Jump") && coll.IsTouchingLayers(Ground)) 
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -247,7 +254,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Jump()//extra jump on destroying the enemy 
+    private void Jump()
     {
         //rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         rb.velocity = new Vector2(1, jumpForce);//latest
@@ -255,29 +262,7 @@ public class PlayerController : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("sJump");
     }
 
-    private void TimeUI()//handle time UI 
-    {
-        float t = startTime - Time.deltaTime;
-
-        startTime -= Time.deltaTime;
-
-        string seconds = t.ToString("f0");
-
-        timerText.text = seconds;
-
-        if (t<=10)
-        {
-            timerText.color = Color.red;
-            FindObjectOfType<AudioManager>().Play("timeup"); 
-        }
-        if (t<=0)
-        {
-            anim.SetTrigger("Death");
-            GameOver();
-        }
-    }
-
-    public void PauseGame()// pause game and SFX/ bg music
+    public void PauseGame()
     {
         if(Time.timeScale==1)
         {      
@@ -291,15 +276,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator ResetPower()// coroutine for powerup  
+    private IEnumerator ResetPower()
     {
         yield return new WaitForSeconds(15);
         jumpForce =15f;
         GetComponent <SpriteRenderer>().color = Color.white;
     }
 
-    public void LoadL2()//transition to L2
+    public void LoadL2()
     {
+        
         timerText.color = Color.green;
         timerText.text = "YAY";
         SceneManager.LoadScene(5);
@@ -307,7 +293,7 @@ public class PlayerController : MonoBehaviour
         Start();
     }
 
-    public void FinishedGame()//won the game method
+    public void FinishedGame()
     {   
         timerText.color = Color.green;
         timerText.text = "YAY";
@@ -315,16 +301,16 @@ public class PlayerController : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("yay");
     }
 
-    public void GameOver()//game over method
+    private IEnumerator DelayFn()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(2);
+    }
+
+    public void GameOver()
     {
         timerText.color = Color.red;
         timerText.text = "OVER";
         StartCoroutine(DelayFn());
-    }
-
-    private IEnumerator DelayFn()//induce delay 
-    {
-        yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(2);
     }
 }
