@@ -7,11 +7,11 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
     public Sound[] sounds;
-    // Start is called before the first frame update
+    
     void Awake()
     {
-        
-        
+        FindObjectOfType<AudioManager>().Play("mainmenu");
+        //ensuring a single audio manager 
         if (Instance == null)
         {
             Instance = this;
@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     void Start()
     {
         
@@ -35,21 +36,18 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
             s.source.spatialize = s.spatialize;
         }
-        FindObjectOfType<AudioManager>().Play("mainmenu");
+        
     }
-
-    
+ 
     public void Play (string name)
     {
         Sound s = Array.Find( sounds, sound=>sound.name == name);
         s.source.Play();
     }
 
-
     public void Pause (string name)
     {
         Sound s = Array.Find( sounds, sound=>sound.name == name);
         s.source.Pause();
     }
-
 }
