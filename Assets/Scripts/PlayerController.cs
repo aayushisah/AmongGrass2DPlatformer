@@ -16,25 +16,26 @@ public class PlayerController : MonoBehaviour
     private float startTime =210;
     private float fallMultiplier = 5f;
     
-    
+    //serializables
     [SerializeField] private LayerMask Ground;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private int pineapple = 0;
-    [SerializeField] private Text pText ;
     [SerializeField] private float hurtForce = 10f;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private int pineapple = 0;
     [SerializeField] private int health =100;
+    [SerializeField] private Text pText ;
     [SerializeField] private Text healthAmt;
     [SerializeField] private Text timerText;
-    [SerializeField] private float rotationSpeed;
+    
 
     
     void Start()
     {
-        
         rb = GetComponent<Rigidbody2D>();   
         anim = GetComponent<Animator>();   
         coll = GetComponent<CircleCollider2D>();
+
         healthAmt.text = health.ToString();
 
         FindObjectOfType<AudioManager>().Play("mainmenu");
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
         if (t<=10)
         {
             timerText.color = Color.red;
-            TimeUp();
+            FindObjectOfType<AudioManager>().Play("timeup"); 
         }
         if (t<=0)
         {
@@ -73,36 +74,35 @@ public class PlayerController : MonoBehaviour
 
         VelocityState();
         anim.SetInteger("State", (int)state);    
+
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("collectible"))//faster than collision.tag
+        if(collision.CompareTag("collectible"))//faster than collision.tag
         {
             Destroy(collision.gameObject);
             pineapple += 1;
             FindObjectOfType<AudioManager>().Play("yum");
             pText.text = pineapple.ToString();
         }
-        if (collision.CompareTag("Powerup"))
+        if(collision.CompareTag("Powerup"))
         {
             Destroy(collision.gameObject);
             FindObjectOfType<AudioManager>().Play("powerup");
             jumpForce =27f;
             
             GetComponent <SpriteRenderer>().color =  Color.magenta;
-            StartCoroutine(ResetPower());
-            
+            StartCoroutine(ResetPower());   
         }
-        if (collision.CompareTag("end"))
+        if(collision.CompareTag("end"))
         {
             state = State.idle;
             FinishedGame();
         }
-        if( collision.CompareTag("end2"))
+        if(collision.CompareTag("end2"))
         {
-            
             if (5 > PlayerPrefs.GetInt("levelAt"))
             {
                 PlayerPrefs.SetInt("levelAt", 5);
@@ -111,13 +111,8 @@ public class PlayerController : MonoBehaviour
             LoadL2();
             Start();
         }
-        
     }
    
-       
-              
-            
-
     private void OnCollisionEnter2D(Collision2D other)
     {
          
@@ -135,21 +130,19 @@ public class PlayerController : MonoBehaviour
 
                 Damagable frog2 = other.gameObject.GetComponent<Damagable>();
                 frog2.OnDeath();
-
                 Jump();
+
                 FindObjectOfType<AudioManager>().Play("enemypop");
                 FindObjectOfType<AudioManager>().Play("sjump");
                 
             }
-        
             else
             {
                 
                 state = State.hurt;
                 FindObjectOfType<AudioManager>().Play("hit");
                 HandleHealth();
-                
-                
+  
                 if (other.gameObject.transform.position.x > transform.position.x)
                 {
                     rb.velocity = new Vector2(-hurtForce, rb.velocity.y);
@@ -160,7 +153,6 @@ public class PlayerController : MonoBehaviour
                 {
                     rb.velocity = new Vector2(hurtForce, rb.velocity.y);
                     state = State.idle;
-                    
                 }
             }    
         }
@@ -172,9 +164,7 @@ public class PlayerController : MonoBehaviour
         health -= 10;
         healthAmt.text = health.ToString();
         if(health <= 50)
-        {
             healthAmt.color = Color.magenta;
-        }
         if(health <= 0)
         {
             healthAmt.color = Color.red;
@@ -189,8 +179,7 @@ public class PlayerController : MonoBehaviour
     {
         if(state == State.jump )
         {
-            //if (rb.velocity.y < 0.1f)
-            if (rb.velocity.y <2f)//latest
+            if (rb.velocity.y <2f)
             {
                 state = State.falling;               
             }
@@ -265,7 +254,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void Jump()
     {
         //rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -274,10 +262,8 @@ public class PlayerController : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("sJump");
     }
 
-
     public void PauseGame()
     {
-        
         if(Time.timeScale==1)
         {      
            Time.timeScale = 0;
@@ -289,7 +275,6 @@ public class PlayerController : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("mainmenu");
         }
     }
-
 
     private IEnumerator ResetPower()
     {
@@ -316,13 +301,11 @@ public class PlayerController : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("yay");
     }
 
-
     private IEnumerator DelayFn()
     {
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(2);
     }
-
 
     public void GameOver()
     {
@@ -330,23 +313,4 @@ public class PlayerController : MonoBehaviour
         timerText.text = "OVER";
         StartCoroutine(DelayFn());
     }
-
-
-    public void MainMenu()
-    {        
-        SceneManager.LoadScene(0);
-        FindObjectOfType<AudioManager>().Play("mainmenu");
-    }
-    
-
-    private void TimeUp()
-    {
-        FindObjectOfType<AudioManager>().Play("timeup"); 
-    }
-
-    public void ResetGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-    
 }
