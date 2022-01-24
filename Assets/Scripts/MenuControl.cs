@@ -31,13 +31,11 @@ public class MenuControl : MonoBehaviour
     public void Rules()
     { 
         SceneManager.LoadScene(3);
-        FindObjectOfType<AudioManager>().Play("mainmenu");
     }
 
     public void MainMenu()
     {        
         SceneManager.LoadScene(0);
-        FindObjectOfType<AudioManager>().Play("mainmenu");
     }
 
     public void GoBack()
