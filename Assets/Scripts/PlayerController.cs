@@ -37,9 +37,9 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();   
         coll = GetComponent<CircleCollider2D>();
 
-        healthAmt.text = health.ToString();
+        if (healthAmt!= null)
+            healthAmt.text = health.ToString();
 
-        FindObjectOfType<AudioManager>().Play("mainmenu");
         FindObjectOfType<AudioManager>().Play("powerup");           
     }
 
@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
                 //for better Mario-like jump 
                 rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1)*Time.deltaTime;                            
             }
-            if(coll.IsTouchingLayers(Ground))
+            if(coll.IsTouchingLayers(Ground) || col.IsTouchingLayers(Ground))
             {
                 state = State.idle;
             }
@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
         movementDirection.Normalize();
 
         //enables player to move on angled floors
-        if (coll.IsTouchingLayers(Ground))
+        if (coll.IsTouchingLayers(Ground) || col.IsTouchingLayers(Ground))
         {
             transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
             if (movementDirection != Vector2.zero)
@@ -239,7 +239,7 @@ public class PlayerController : MonoBehaviour
             state = State.jump;
             FindObjectOfType<AudioManager>().Play("sJump");       
         }
-        else if ((Input.GetButtonDown("Jump") && coll.IsTouchingLayers(Ground) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) )) )
+        else if ((Input.GetButtonDown("Jump") && (coll.IsTouchingLayers(Ground) || col.IsTouchingLayers(Ground)) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) )) )
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             state = State.jump;
@@ -263,12 +263,16 @@ public class PlayerController : MonoBehaviour
 
         string seconds = t.ToString("f0");
 
-        timerText.text = seconds;
+        if(timerText!=null)
+            timerText.text = seconds;
 
         if (t<=10)
         {
-            timerText.color = Color.red;
-            FindObjectOfType<AudioManager>().Play("timeup"); 
+            if(timerText!=null)
+            {
+                timerText.color = Color.red;
+                FindObjectOfType<AudioManager>().Play("timeup"); 
+            }
         }
         if (t<=0)
         {
@@ -282,12 +286,12 @@ public class PlayerController : MonoBehaviour
         if(Time.timeScale==1)
         {      
            Time.timeScale = 0;
-           FindObjectOfType<AudioManager>().Pause("mainmenu");
+           FindObjectOfType<AudioManager>().Pause("Twitch Prime OST");
         }
         else
         {  
             Time.timeScale = 1;
-            FindObjectOfType<AudioManager>().Play("mainmenu");
+            FindObjectOfType<AudioManager>().Play("Twitch Prime OST");
         }
     }
 

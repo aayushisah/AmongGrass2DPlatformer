@@ -20,7 +20,7 @@ public class Sound
 
     public bool spatialize;
 
-    [HideInInspector]
+  [HideInInspector]
     public AudioSource source;
 
 }
