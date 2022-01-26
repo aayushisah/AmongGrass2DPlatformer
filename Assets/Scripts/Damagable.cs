@@ -8,7 +8,7 @@ public class Damagable : MonoBehaviour
    
     public void OnDeath()
     {
-        Debug.Log("ded");
+        //Debug.Log("ded");
         deathEvent.Invoke();
 
     }    

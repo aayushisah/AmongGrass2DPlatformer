@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
     public AudioSource bgsource;
     public Sound[] sounds;
+    
     void Awake()
     { 
         Debug.Log("awake");
@@ -24,7 +25,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        int i =0; 
+        int i = 0; 
         bgsource = GetComponent<AudioSource>();
         foreach ( Sound s in sounds)
         {
@@ -39,15 +40,11 @@ public class AudioManager : MonoBehaviour
             s.source.priority = i;
             
         }
-        //FindObjectOfType<AudioManager>().Play("bgmusic");
-        //PlayMusic(Resources.Load("Twitch Prime OST") as AudioClip);
-        //PlayMusic(Resources.Load("mainmenu") as AudioClip);
         bgsource.clip = Resources.Load("Twitch Prime OST") as AudioClip;
-        bgsource.volume = 0.5f;
+        bgsource.volume = 0.3f;
         bgsource.pitch = 1;
         bgsource.loop = true;
         bgsource.Play();
-        Debug.Log("start");
     }
 
     public void PlayMusic(AudioClip clip)

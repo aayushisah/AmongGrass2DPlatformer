@@ -75,6 +75,5 @@ public class StackedNinjaFrogs : MonoBehaviour
     public void Death()
     {
         Destroy(gameObject);
-        //Debug.Log("ok death");
     }
 }

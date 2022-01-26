@@ -70,11 +70,9 @@ public class NinjaFrog : MonoBehaviour
     public void jumpedOn()
     {
         anim.SetTrigger("Death");
-        
-        Debug.Log("ok");
     }
 
-    private void Death()
+    public void Death()
     {
         Destroy(gameObject);
         Debug.Log("ok death");

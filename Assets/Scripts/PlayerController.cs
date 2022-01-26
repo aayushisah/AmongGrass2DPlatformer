@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D col;
     private enum State{idle,run,jump,falling,hurt};
     private State state = State.idle;
-    private float startTime =210;
+    private float startTime = 180;
     private float fallMultiplier = 5f;
     
     //serializables
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             Movement();
         }
-
+        if (SceneManager.GetActiveScene().name == "L1" || SceneManager.GetActiveScene().name == "L2")
         TimeUI();//time UI 
         
         if(gameObject.transform.position.y<-15)//player dies on falling off the platform 
@@ -108,13 +108,8 @@ public class PlayerController : MonoBehaviour
          
         if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Trap"))
         {
-            if(state == State.falling && other.gameObject.CompareTag("Enemy" ))
+            if(state == State.falling && other.gameObject.CompareTag("Enemy"))
             {
-                NinjaFrog ninjaFrog = other.gameObject.GetComponent<NinjaFrog>();
-                ninjaFrog?.jumpedOn();
-                //frogtrouble frog = other.gameObject.GetComponent<frogtrouble>();
-                //ninjaFrog?.Death();
-                //Destroy(other.gameObject);
                 Damagable ninjafrog = other.gameObject.GetComponent<Damagable>();
                 ninjafrog.OnDeath();
 
@@ -138,7 +133,6 @@ public class PlayerController : MonoBehaviour
                     rb.velocity = new Vector2(-hurtForce, rb.velocity.y);
                     state = State.idle;
                 }
-
                 else 
                 {
                     rb.velocity = new Vector2(hurtForce, rb.velocity.y);
@@ -182,7 +176,7 @@ public class PlayerController : MonoBehaviour
                 //for better Mario-like jump 
                 rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1)*Time.deltaTime;                            
             }
-            if(coll.IsTouchingLayers(Ground) || col.IsTouchingLayers(Ground))
+            if(coll.IsTouchingLayers(Ground))
             {
                 state = State.idle;
             }
@@ -208,7 +202,7 @@ public class PlayerController : MonoBehaviour
         movementDirection.Normalize();
 
         //enables player to move on angled floors
-        if (coll.IsTouchingLayers(Ground) || col.IsTouchingLayers(Ground))
+        if (coll.IsTouchingLayers(Ground))
         {
             transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
             if (movementDirection != Vector2.zero)
@@ -239,7 +233,7 @@ public class PlayerController : MonoBehaviour
             state = State.jump;
             FindObjectOfType<AudioManager>().Play("sJump");       
         }
-        else if ((Input.GetButtonDown("Jump") && (coll.IsTouchingLayers(Ground) || col.IsTouchingLayers(Ground)) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) )) )
+        else if ((Input.GetButtonDown("Jump") && coll.IsTouchingLayers(Ground)  && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) )) )
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             state = State.jump;
@@ -268,7 +262,7 @@ public class PlayerController : MonoBehaviour
 
         if (t<=10)
         {
-            if(timerText!=null)
+            if(timerText != null)
             {
                 timerText.color = Color.red;
                 FindObjectOfType<AudioManager>().Play("timeup"); 
@@ -328,7 +322,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayFn()//induce delay 
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(2);
     }
 }
