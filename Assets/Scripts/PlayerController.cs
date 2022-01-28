@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour
         }
         if(collision.CompareTag("end"))
         {
+            PlayerPrefs.Save(); 
             state = State.idle;
             FinishedGame();
         }
